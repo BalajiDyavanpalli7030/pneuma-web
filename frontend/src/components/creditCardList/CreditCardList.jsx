@@ -14,6 +14,7 @@ function CreditCardList() {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState("")
 
   useEffect(() => {
     const fetchCreditCards = async () => {
@@ -21,8 +22,10 @@ function CreditCardList() {
         const response = await axios.get(`http://localhost:5000/api/creditcards?page=${page}&limit=9`);
         setCreditCards(response.data.data);
         setPagination(response.data.pagination);
+        setMessage("")
       } catch (error) {
         console.error('Error fetching credit cards:', error);
+        setMessage("Something went wrong!!!")
       }
     };
 
@@ -55,7 +58,7 @@ function CreditCardList() {
 
   return (
     <div>
-          <div className="credit-cards-header">
+        <div className="credit-cards-header">
         <h1>Credit Cards</h1>
         <div className="credit-cards-actions">
           <input type="text" 
@@ -73,6 +76,9 @@ function CreditCardList() {
           </div>
         </div>
       </div>
+      {message && 
+        <p>{message}</p>
+      }
       <table className="credit-card-table">
         <thead >
           <tr>

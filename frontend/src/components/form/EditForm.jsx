@@ -9,7 +9,6 @@ function EditForm({setEdit, card}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ cardName, bankName, enabled });
     try{
       const response =await axios.put(`http://localhost:5000/api/creditcards/${card.id}`,{bank_name:bankName, credit_card_name:cardName,enabled})
       setMessage(response.data.message)
@@ -59,6 +58,7 @@ function EditForm({setEdit, card}) {
             type="checkbox"
             id="enabled"
             name="enabled"
+            value={enabled}
             checked={enabled}
             onChange={(e) => setEnabled(e.target.checked)}
           />
