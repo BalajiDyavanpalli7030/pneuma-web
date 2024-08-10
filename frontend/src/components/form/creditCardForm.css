@@ -1,0 +1,16 @@
+form{
+    h2{
+        color: #444;
+    }
+    .wrapper{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .wrapper1{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+}
