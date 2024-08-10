@@ -47,7 +47,7 @@ This website is a simple admin dashboard for managing credit cards.
    npm install
    npm start
 
-Visit http://localhost:3000 in your browser to play the game.
+Visit http://localhost:3000 in your browser to see dashboard.
 
 ## Technologies Used
 
