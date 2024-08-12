@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import './creditCardForm.css';
 import axios from "axios";
-function EditForm({setEdit, card}) {
-  const [cardName, setCardName] = useState(card.cardName);
-  const [bankName, setBankName] = useState(card.bankName);
+import { format } from 'date-fns';
+function EditForm({setEdit, card,onUpdateCard }) {
+  const [cardName, setCardName] = useState(card.credit_card_name);
+  const [bankName, setBankName] = useState(card.bank_name);
   const [enabled, setEnabled] = useState(card.enabled);
   const [message, setMessage] = useState("")
 
@@ -12,6 +13,7 @@ function EditForm({setEdit, card}) {
     try{
       const response =await axios.put(`http://localhost:5000/api/creditcards/${card.id}`,{bank_name:bankName, credit_card_name:cardName,enabled})
       setMessage(response.data.message)
+      onUpdateCard({ ...card, bank_name: bankName, credit_card_name: cardName, enabled });
     }catch(error){
       console.log("Something went wrong!", error)
       setMessage("Error updating credit card");
@@ -65,7 +67,7 @@ function EditForm({setEdit, card}) {
         </div>
         <div>
           <label>Created At</label>
-          <p>...</p>
+          <p>{format(card.created_at, 'MMMM dd, yyyy')}</p>
         </div>
       </div>
       <div className="wrapper1">

@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import './creditCardForm.css';
 import axios from "axios";
-function CreditCardForm({setOpen}) {
+function CreditCardForm({setOpen,handleAddCard}) {
   const [cardName, setCardName] = useState("");
   const [bankName, setBankName] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [message, setMessage] = useState("")
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ cardName, bankName, enabled });
+    const newCard = {bank_name:bankName, credit_card_name:cardName,enabled}
     try{
-      const response =await axios.post(`http://localhost:5000/api/creditcards`,{bank_name:bankName, credit_card_name:cardName,enabled})
+      const response =await axios.post(`http://localhost:5000/api/creditcards`,newCard)
       setMessage(response.data.message)
+      handleAddCard(response.data.newCard);
       setCardName("");
       setBankName("");
       setEnabled(false);
+
     }catch(error){
       console.log("Something went wrong!", error)
       setMessage("Error creating credit card");
@@ -22,7 +24,7 @@ function CreditCardForm({setOpen}) {
   };
   const handleCardNameChange = (e) => {
     setCardName(e.target.value);
-    setMessage(""); // Clear message
+    setMessage("");
   };
   return (
     <form onSubmit={handleSubmit}>

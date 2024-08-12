@@ -9,9 +9,9 @@ const getCreditCardCount = (callback) => {
   db.query('SELECT COUNT(*) AS count FROM credit_cards', callback);
 };
 
-const getAllCreditCards = (callback) => {
-  db.query('SELECT * FROM credit_cards', callback);
-};
+// const getAllCreditCards = (callback) => {
+//   db.query('SELECT * FROM credit_cards', callback);
+// };
 
 const addCreditCard = (data, callback) => {
   const { bank_name, credit_card_name, enabled } = data;

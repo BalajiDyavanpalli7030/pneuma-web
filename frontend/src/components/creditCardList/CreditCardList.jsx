@@ -30,9 +30,10 @@ function CreditCardList() {
     };
 
     fetchCreditCards();
-  }, [page,creditCards]);
+  }, [page]);
 
   useEffect(() => {
+
     const filterCards = () => {
       const query = searchQuery.toLowerCase();
       const filtered = creditCards.filter(card =>
@@ -56,6 +57,39 @@ function CreditCardList() {
     setEdit(edit === id ? null : id);
   };
 
+  const handleAddCard = (newCard) => {
+    const newTotalItems = pagination.totalItems + 1;
+    const newTotalPages = Math.ceil(newTotalItems / pagination.perPage);
+
+    setPagination(prev => ({
+      ...prev,
+      totalItems: newTotalItems,
+      totalPages: newTotalPages,
+    }));
+
+    const isLastPage = page === newTotalPages;
+    setCreditCards(prevCards => {
+      if (isLastPage) {
+        return [...prevCards, newCard];
+      }
+      return prevCards;
+    });
+
+    setPage(newTotalPages);
+
+    setOpen(false);
+  };
+
+  const handleUpdateCard = (updatedCard) => {
+    const updatedCards = creditCards.map(card =>
+      card.id === updatedCard.id ? updatedCard : card
+    );
+    setCreditCards(updatedCards);
+  };
+
+  const handleDelete = (deletedId) => {
+    setCreditCards(creditCards.filter(card => card.id !== deletedId));
+  };
   return (
     <div>
         <div className="credit-cards-header">
@@ -70,7 +104,7 @@ function CreditCardList() {
             <button className="add-card-button" onClick={()=>setOpen(true)}>Add Card</button>
             {open &&
             <div className="add-card">
-              <CreditCardForm setOpen={setOpen}/>
+              <CreditCardForm setOpen={setOpen} handleAddCard={handleAddCard}/>
             </div>
             }
           </div>
@@ -104,7 +138,7 @@ function CreditCardList() {
                     <button onClick={() => toggleEdit(card.id)}>Edit</button>
                     {edit === card.id && (
                       <div className="edit-wrapper-content">
-                        <EditForm card={card} setEdit={setEdit} />
+                        <EditForm card={card} setEdit={setEdit} onUpdateCard={handleUpdateCard}/>
                       </div>
                     )}
                   </div>
@@ -112,7 +146,7 @@ function CreditCardList() {
                     <button onClick={() => toggleDelete(card.id)}>Delete</button>
                     {activeDeleteId === card.id && (
                       <div className="delete-wrapper-content">
-                        <Delete id={card.id} setActiveDeleteId={setActiveDeleteId}/>
+                        <Delete id={card.id} setActiveDeleteId={setActiveDeleteId} handleDelete={handleDelete}/>
                       </div>
                     )}
                   </div>

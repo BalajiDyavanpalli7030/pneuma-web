@@ -1,5 +1,5 @@
 const creditCardModel = require('../models/creditCardModel.js');
-
+const db = require('../config/db.js');
 const getPaginatedCreditCards = (req, res) => {
   const page = parseInt(req.query.page) || 1; // default to page 1
   const limit = parseInt(req.query.limit) || 9; // default to 9 items per page
@@ -30,17 +30,34 @@ const getPaginatedCreditCards = (req, res) => {
   });
 };
 
+// const addCreditCard = (req, res) => {
+//   console.log(req.body)
+//   creditCardModel.addCreditCard(req.body, (err, results) => {
+//     console.log(results)
+//     if (err) {
+//       return res.status(500).json({ error: 'Error adding credit card' });
+//     }
+//     res.status(201).json({ message: 'Credit card added successfully' });
+//   });
+// };
 const addCreditCard = (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   creditCardModel.addCreditCard(req.body, (err, results) => {
-    console.log(err)
     if (err) {
       return res.status(500).json({ error: 'Error adding credit card' });
     }
-    res.status(201).json({ message: 'Credit card added successfully' });
+    // Assuming `results.insertId` is the ID of the newly inserted card
+    const newCardId = results.insertId;
+    
+    // Fetch the new card including the created_at time
+    db.query('SELECT * FROM credit_cards WHERE id = ?', [newCardId], (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error fetching the new card' });
+      }
+      res.status(201).json({ message: 'Credit card added successfully', newCard: rows[0] });
+    });
   });
 };
-
 const editCreditCard = (req, res) => {
   const { id } = req.params;
   creditCardModel.editCreditCard(id, req.body, (err, results) => {

@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-const Delete = ({setActiveDeleteId, id}) => {
+const Delete = ({setActiveDeleteId, id,handleDelete}) => {
   const [message, setMessage] = useState("")
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
       const response =await axios.delete(`http://localhost:5000/api/creditcards/${id}`)
       setMessage(response.data.message)
+      handleDelete(id);
     }catch(error){
       console.log("Something went wrong!", error)
       setMessage("Error updating credit card");
