@@ -30,7 +30,7 @@ function CreditCardList() {
     };
 
     fetchCreditCards();
-  }, [page,creditCards]);
+  }, [page]);
 
   useEffect(() => {
     const filterCards = () => {
