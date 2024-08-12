@@ -7,7 +7,7 @@ This website is a simple admin dashboard for managing credit cards.
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/BalajiDyavanpalli7030/pneuma-web.git
+   git clone https://github.com/BalajiDyavanpalli7030/pneuma-web.git pneuma-web
 2. **Backend Setup:**
 
    ```bash
