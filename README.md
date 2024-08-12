@@ -14,7 +14,8 @@ This website is a simple admin dashboard for managing credit cards.
    cd backend
    npm install
 
-2.1 **Create a .env file and add your database details:**
+   ```
+   2.1 **Create a .env file and add your database details:**
 
    ```env
    DB_HOST=127.0.0.1
